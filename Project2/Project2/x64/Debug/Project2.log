@@ -1,6 +1,0 @@
-﻿  Game.cpp
-C:\Users\gabri\Documents\ERIC CURSO\Tecnicatura en Videojuegos\MODELOS Y ALGORITMOS II\ENTREGA UNIDAD 3\Modelos-y-algoritmos-II-Unidad-3\Project2\Project2\Game.cpp(45,69): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\gabri\Documents\ERIC CURSO\Tecnicatura en Videojuegos\MODELOS Y ALGORITMOS II\ENTREGA UNIDAD 3\Modelos-y-algoritmos-II-Unidad-3\Project2\Project2\Game.cpp(45,50): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\gabri\Documents\ERIC CURSO\Tecnicatura en Videojuegos\MODELOS Y ALGORITMOS II\ENTREGA UNIDAD 3\Modelos-y-algoritmos-II-Unidad-3\Project2\Project2\Game.cpp(62,65): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\gabri\Documents\ERIC CURSO\Tecnicatura en Videojuegos\MODELOS Y ALGORITMOS II\ENTREGA UNIDAD 3\Modelos-y-algoritmos-II-Unidad-3\Project2\Project2\Game.cpp(62,48): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-  Project2.vcxproj -> C:\Users\gabri\Documents\ERIC CURSO\Tecnicatura en Videojuegos\MODELOS Y ALGORITMOS II\ENTREGA UNIDAD 3\Modelos-y-algoritmos-II-Unidad-3\Project2\x64\Debug\Project2.exe
