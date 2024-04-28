@@ -6,7 +6,7 @@ using namespace sf;
 Game::Game(int _width, int _height)
 {
 
-	_wnd = new RenderWindow(VideoMode(_width, _height), "EJERCICIO 5 - RAGDOLL BREAKDANCE");
+	_wnd = new RenderWindow(VideoMode(_width, _height), "EJERCICIO 5 - RAGDOLL");
 	_fps = 60;
 	_wnd->setFramerateLimit(_fps);
 	_frameTime = 1.f / _fps;
@@ -42,21 +42,24 @@ void Game::DoEvents()
 
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
-			_head->ApplyForce(b2Vec2(100.f, 0.f), b2Vec2(0.f,0.f), true);
-			_chest->ApplyForce(b2Vec2(100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_lArm->ApplyForce(b2Vec2(100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_rArm->ApplyForce(b2Vec2(100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_lLeg->ApplyForce(b2Vec2(100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_rLeg->ApplyForce(b2Vec2(100.f, 0.f), b2Vec2(0.f, 0.f), true);
+			for (int i = 0; i < 6; i++)
+			{
+				_bodies[i]->ApplyForce(b2Vec2(400.f, 0.f), _bodies[i]->GetWorldCenter(), true);
+			}
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
-			_head->ApplyForce(b2Vec2(-100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_chest->ApplyForce(b2Vec2(-100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_lArm->ApplyForce(b2Vec2(-100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_rArm->ApplyForce(b2Vec2(-100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_lLeg->ApplyForce(b2Vec2(-100.f, 0.f), b2Vec2(0.f, 0.f), true);
-			_rLeg->ApplyForce(b2Vec2(-100.f, 0.f), b2Vec2(0.f, 0.f), true);
+			for (int i = 0; i < 6; i++)
+			{
+				_bodies[i]->ApplyForce(b2Vec2(-400.f, 0.f), _bodies[i]->GetWorldCenter(), true);
+			}
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Up))
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				_bodies[i]->ApplyForce(b2Vec2(0.f, -800.f), _bodies[i]->GetWorldCenter(), true);
+			}
 		}
 	}
 }
@@ -81,36 +84,35 @@ void Game::InitPhysics()
 	b2Body* roof = Box2D::CreateRectangularStaticBody(_world, 100.f, 10.f);
 	roof->SetTransform(b2Vec2(50.f, 0.f), 0.f);
 
-    _head = Box2D::CreateCircularDynamicBody(_world, 2.f, 1.f, 0.3f, 0.5f);
-	_head->SetTransform(b2Vec2(40.f, 49.f), 0.f);
+	_bodies[0] = Box2D::CreateCircularDynamicBody(_world, 2.f, 1.f, 0.f, 0.1f); // Cabeza
+	_bodies[0]->SetTransform(b2Vec2(40.f, 49.f), 0.f);
 
-	_chest = Box2D::CreateRectangularDynamicBody(_world, 4.f, 8.f, 1.f, 0.3f, 0.2f);
-	_chest->SetTransform(b2Vec2(40.f, 55.f), 0.f);
+	_bodies[1] = Box2D::CreateRectangularDynamicBody(_world, 4.f, 8.f, 1.f, 0.f, 0.1f); // Pecho
+	_bodies[1]->SetTransform(b2Vec2(40.f, 55.f), 0.f);
 
-	_lArm = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.3f, 0.2f);
-	_lArm->SetTransform(b2Vec2(37.f, 54.f), 0.f);
+	_bodies[2] = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.f, 0.1f); // Brazo izquierdo
+	_bodies[2]->SetTransform(b2Vec2(37.f, 54.f), -50.f);
 
-	_rArm = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.3f, 0.2f);
-	_rArm->SetTransform(b2Vec2(43.f, 54.f), 0.f);
+	_bodies[3] = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.f, 0.1f); // Brazo derecho
+	_bodies[3]->SetTransform(b2Vec2(43.f, 54.f), 50.f);
 
-	_lLeg = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.3f, 0.2f);
-	_lLeg->SetTransform(b2Vec2(37.f, 60.f), 0.f);
+	_bodies[4] = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.f, 0.1f); // Pierna izquierda
+	_bodies[4]->SetTransform(b2Vec2(37.f, 60.f), -50.f);
 
-	_rLeg = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.3f, 0.2f);
-	_rLeg->SetTransform(b2Vec2(43.f, 60.f), 0.f);
+	_bodies[5] = Box2D::CreateRectangularDynamicBody(_world, 2.f, 4.f, 1.f, 0.f, 0.1f); // Pierna derecha
+	_bodies[5]->SetTransform(b2Vec2(43.f, 60.f), 50.f);
 
-	Box2D::CreateDistanceJoint(_world, _head, b2Vec2(_head->GetWorldCenter()), _chest, b2Vec2(_chest->GetWorldCenter()), 0.f, 0.f, 0.1f );
-	Box2D::CreateRevoluteJoint(_world, _chest, b2Vec2(40.f, 55.f), _head, -b2_pi * 0.2f, b2_pi * 0.2f, 0.f, 0.f, false, true);
-	Box2D::CreateDistanceJoint(_world, _chest, b2Vec2(_chest->GetWorldCenter()), _lArm, b2Vec2(_lArm->GetWorldCenter()), 0.f, 0.f, 0.1f);
-	Box2D::CreateRevoluteJoint(_world, _chest, b2Vec2(40.f, 52.f), _lArm, -b2_pi * 0.9f, b2_pi * 0.5f, 0.f, 0.f, false, true);
-	Box2D::CreateDistanceJoint(_world, _chest, b2Vec2(_chest->GetWorldCenter()), _rArm, b2Vec2(_rArm->GetWorldCenter()), 0.f, 0.f, 0.1f);
-	Box2D::CreateRevoluteJoint(_world, _chest, b2Vec2(40.f, 52.f), _rArm, -b2_pi * 0.9f, b2_pi * 0.5f, 0.f, 0.f, false, true);
-	Box2D::CreateDistanceJoint(_world, _chest, b2Vec2(_chest->GetWorldCenter()), _lLeg, b2Vec2(_lLeg->GetWorldCenter()), 0.f, 0.f, 0.1f);
-	Box2D::CreateRevoluteJoint(_world, _chest, b2Vec2(40.f, 58.f), _lLeg, -b2_pi * 0.2f, b2_pi * 0.2f, 0.f, 0.f, false, true);
-	Box2D::CreateDistanceJoint(_world, _chest, b2Vec2(_chest->GetWorldCenter()), _rLeg, b2Vec2(_rLeg->GetWorldCenter()), 0.f, 0.f, 0.1f);
-	Box2D::CreateRevoluteJoint(_world, _chest, b2Vec2(40.f, 58.f), _rLeg, -b2_pi * 0.2f, b2_pi * 0.2f, 0.f, 0.f, false, true);
+	Box2D::CreateDistanceJoint(_world, _bodies[0], b2Vec2(_bodies[0]->GetWorldCenter()), _bodies[1], b2Vec2(_bodies[1]->GetWorldCenter()), 0.f, 0.f, 0.1f);
+	Box2D::CreateRevoluteJoint(_world, _bodies[1], b2Vec2(40.f, 55.f), _bodies[0], -b2_pi * 0.2f, b2_pi * 0.2f, 0.f, 0.f, false, true);
+	Box2D::CreateDistanceJoint(_world, _bodies[1], b2Vec2(_bodies[1]->GetWorldCenter()), _bodies[2], b2Vec2(_bodies[2]->GetWorldCenter()), 0.f, 0.f, 0.1f);
+	Box2D::CreateRevoluteJoint(_world, _bodies[1], b2Vec2(40.f, 52.f), _bodies[2], -b2_pi * 0.9f, b2_pi * 0.5f, 0.f, 0.f, false, true);
+	Box2D::CreateDistanceJoint(_world, _bodies[1], b2Vec2(_bodies[1]->GetWorldCenter()), _bodies[3], b2Vec2(_bodies[3]->GetWorldCenter()), 0.f, 0.f, 0.1f);
+	Box2D::CreateRevoluteJoint(_world, _bodies[1], b2Vec2(40.f, 52.f), _bodies[3], -b2_pi * 0.9f, b2_pi * 0.5f, 0.f, 0.f, false, true);
+	Box2D::CreateDistanceJoint(_world, _bodies[1], b2Vec2(_bodies[1]->GetWorldCenter()), _bodies[4], b2Vec2(_bodies[4]->GetWorldCenter()), 0.f, 0.f, 0.1f);
+	Box2D::CreateRevoluteJoint(_world, _bodies[1], b2Vec2(40.f, 58.f), _bodies[4], -b2_pi * 0.2f, b2_pi * 0.2f, 0.f, 0.f, false, true);
+	Box2D::CreateDistanceJoint(_world, _bodies[1], b2Vec2(_bodies[1]->GetWorldCenter()), _bodies[5], b2Vec2(_bodies[5]->GetWorldCenter()), 0.f, 0.f, 0.1f);
+	Box2D::CreateRevoluteJoint(_world, _bodies[1], b2Vec2(40.f, 58.f), _bodies[5], -b2_pi * 0.2f, b2_pi * 0.2f, 0.f, 0.f, false, true);
 }
-
 
 void Game::UpdatePhysics()
 {
@@ -152,35 +154,54 @@ void Game::DrawGame()
 	roofShape.setPosition(0.f, 0.f);
 	_wnd->draw(roofShape);
 
-	/*CircleShape headShape(2.f);
+	CircleShape headShape(2.f);
 	headShape.setFillColor(Color::Yellow);
-	headShape.setPosition(_head->GetPosition().x - 2.f, _head->GetPosition().y - 2.f);
-	_wnd->draw(headShape);
 
 	RectangleShape chestShape(Vector2f(4.f, 8.f));
 	chestShape.setFillColor(Color::Red);
-	chestShape.setPosition(_chest->GetPosition().x - 2.f, _chest->GetPosition().y - 4.f);
-	_wnd->draw(chestShape);
 
 	RectangleShape leftArmShape(Vector2f(2.f, 4.f));
 	leftArmShape.setFillColor(Color::Cyan);
-	leftArmShape.setPosition(_lArm->GetPosition().x - 1.f, _lArm->GetPosition().y - 2.f);
-	_wnd->draw(leftArmShape);
 
 	RectangleShape rightArmShape(Vector2f(2.f, 4.f));
 	rightArmShape.setFillColor(Color::Cyan);
-	rightArmShape.setPosition(_rArm->GetPosition().x - 1.f, _rArm->GetPosition().y - 2.f);
-	_wnd->draw(rightArmShape);
 
 	RectangleShape leftLegShape(Vector2f(2.f, 4.f));
 	leftLegShape.setFillColor(Color::Blue);
-	leftLegShape.setPosition(_lLeg->GetPosition().x - 1.f, _lLeg->GetPosition().y - 2.f);
-	_wnd->draw(leftLegShape);
 
 	RectangleShape rightLegShape(Vector2f(2.f, 4.f));
 	rightLegShape.setFillColor(Color::Blue);
-	rightLegShape.setPosition(_rLeg->GetPosition().x - 1.f, _rLeg->GetPosition().y - 2.f);
-	_wnd->draw(rightLegShape);*/
+
+	for (int i = 0; i < 6; i++)
+	{
+		switch (i)
+		{
+		case 0: // Cabeza
+			headShape.setPosition(_bodies[i]->GetPosition().x - 2.f, _bodies[i]->GetPosition().y - 2.f);
+			_wnd->draw(headShape);
+			break;
+		case 1: // Pecho
+			chestShape.setPosition(_bodies[i]->GetPosition().x - 2.f, _bodies[i]->GetPosition().y - 4.f);
+			_wnd->draw(chestShape);
+			break;
+		case 2: // Brazo izquierdo
+			leftArmShape.setPosition(_bodies[i]->GetPosition().x - 1.f, _bodies[i]->GetPosition().y - 2.f);
+			_wnd->draw(leftArmShape);
+			break;
+		case 3: // Brazo derecho
+			rightArmShape.setPosition(_bodies[i]->GetPosition().x - 1.f, _bodies[i]->GetPosition().y - 2.f);
+			_wnd->draw(rightArmShape);
+			break;
+		case 4: // Pierna izquierda
+			leftLegShape.setPosition(_bodies[i]->GetPosition().x - 1.f, _bodies[i]->GetPosition().y - 2.f);
+			_wnd->draw(leftLegShape);
+			break;
+		case 5: // Pierna derecha
+			rightLegShape.setPosition(_bodies[i]->GetPosition().x - 1.f, _bodies[i]->GetPosition().y - 2.f);
+			_wnd->draw(rightLegShape);
+			break;
+		}
+	}
 }
 
 Game::~Game(void)

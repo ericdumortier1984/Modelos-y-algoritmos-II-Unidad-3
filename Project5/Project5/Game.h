@@ -19,12 +19,7 @@ private:
 	int _fps;
 
 	b2World* _world;
-	b2Body* _head;
-	b2Body* _chest;
-	b2Body* _rLeg;
-	b2Body* _lLeg;
-	b2Body* _rArm;
-	b2Body* _lArm;
+	b2Body* _bodies[6];
 	SFML* _render;
 public:
 
